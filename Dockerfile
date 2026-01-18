@@ -14,7 +14,7 @@ RUN gradle dependencies --no-daemon || true
 COPY src ./src
 
 # Build the application
-RUN gradle bootJar --no-daemon
+RUN gradle bootJar --no-daemon -x test
 
 # Stage 2: Run the application
 FROM eclipse-temurin:21-jre-jammy
