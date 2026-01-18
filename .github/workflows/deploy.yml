@@ -39,8 +39,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/re-shopping-cart:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/re-shopping-cart:buildcache,mode=max
+          no-cache: true
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.0
