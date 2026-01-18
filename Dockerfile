@@ -3,18 +3,14 @@ FROM gradle:8.11-jdk21 AS builder
 
 WORKDIR /app
 
-# Copy gradle files first for better caching
-COPY build.gradle settings.gradle gradlew ./
-COPY gradle ./gradle
+# Copy all files
+COPY . .
 
-# Download dependencies (cached if build.gradle hasn't changed)
-RUN gradle dependencies --no-daemon || true
+# Make gradlew executable
+RUN chmod +x gradlew
 
-# Copy source code
-COPY src ./src
-
-# Build the application
-RUN gradle bootJar --no-daemon -x test
+# Build the application using wrapper
+RUN ./gradlew clean bootJar --no-daemon -x test --info
 
 # Stage 2: Run the application
 FROM eclipse-temurin:21-jre-jammy
